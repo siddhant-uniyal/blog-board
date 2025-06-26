@@ -10,7 +10,6 @@ const getData = async () => {
     select: {
       title: true,
       content: true,
-      imageUrl: true,
       authorImage: true,
       authorName: true,
       authorId: true,

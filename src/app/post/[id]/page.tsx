@@ -52,9 +52,9 @@ const IdRoute = async ({ params }: { params: Params }) => {
           </p>
         </div>
       </div>
-      <div className="relative h-[400px] w-full mb-8 overflow-hidden rounded-lg">
+      {/* <div className="relative h-[400px] w-full mb-8 overflow-hidden rounded-lg">
             <Image src={data.imageUrl} alt={data.title} fill className="object-cover" priority></Image>
-      </div>
+      </div> */}
       <Card>
         <CardContent>
             <p className="text-gray-700">{data.content}</p>

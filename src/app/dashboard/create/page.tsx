@@ -30,16 +30,6 @@ const CreateBlogRoute = () => {
               <Label> Content </Label>
               <Textarea name="content" required placeholder="Enter content..."></Textarea>
             </div>
-            <div className="flex flex-col gap-2">
-              <Label> Image URL </Label>
-              <Input
-                name="url"
-                required
-                type="url"
-                placeholder="Enter image URL..."
-              ></Input>
-            </div>
-            {/* <Button>Create Post</Button> */}
             <SubmitButton></SubmitButton>
           </form>
         </CardContent>

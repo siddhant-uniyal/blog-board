@@ -22,7 +22,7 @@ const handleSubmit = async (formData : FormData) => {
         data: {
             title,
             content,
-            imageUrl: url,
+            // imageUrl: url,
             authorId: user.id, 
             authorImage: user.picture as string, 
             authorName: user.given_name as string
