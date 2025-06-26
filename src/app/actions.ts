@@ -9,7 +9,6 @@ const handleSubmit = async (formData : FormData) => {
 
     const title = formData.get("title") as string
     const content = formData.get("content") as string
-    const url = formData.get("url") as string
 
     const { getUser } = getKindeServerSession()
     const user = await getUser()
@@ -22,7 +21,6 @@ const handleSubmit = async (formData : FormData) => {
         data: {
             title,
             content,
-            // imageUrl: url,
             authorId: user.id, 
             authorImage: user.picture as string, 
             authorName: user.given_name as string
