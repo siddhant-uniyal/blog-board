@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { BlogForm } from "../../create/page";
+import { revalidatePath } from "next/cache";
 
 type Params = Promise<{ id: string }>;
 
@@ -30,6 +31,8 @@ export default async function EditBlogPage({ params }: { params: Params }) {
           onSubmit={async (formData: FormData) => {
             'use server';
             await updateBlog(id, formData);
+            revalidatePath("/")
+            revalidatePath("/dashboard")
           }}
           initialTitle={post.title}
           initialContent={post.content}
