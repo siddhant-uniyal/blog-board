@@ -3,6 +3,8 @@ import { BlogCardSkeleton } from "@/components/general/BlogCardSkeleton";
 import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
 
+export const revalidate = 5; 
+
 const getData = async () => {
   const data = await prisma.blogPost.findMany({
     select: {
@@ -15,6 +17,9 @@ const getData = async () => {
       id: true,
       createdAt: true,
       updatedAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
   return data;
