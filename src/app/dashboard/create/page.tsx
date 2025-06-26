@@ -19,7 +19,7 @@ const BlogForm = ({
   initialContent = "",
   submitLabel = "Create post",
 }: {
-  onSubmit: any;
+  onSubmit: (formData: FormData) => Promise<void>;
   initialTitle?: string;
   initialContent?: string;
   submitLabel?: string;

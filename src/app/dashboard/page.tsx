@@ -36,7 +36,6 @@ const BlogCardData = async () => {
 };
 
 const DashboardRoute = async () => {
-  const { getUser } = getKindeServerSession();
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
