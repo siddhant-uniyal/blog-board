@@ -6,12 +6,14 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { BlogForm } from "../../create/page";
 
+type Params = Promise<{ id: string }>;
+
 const getData = async (id: string) => {
   return await prisma.blogPost.findUnique({ where: { id } });
 };
 
-export default async function EditBlogPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function EditBlogPage({ params }: { params: Params }) {
+  const { id } = await params;
   const post = await getData(id);
   if (!post) return notFound();
   const { getUser } = getKindeServerSession();
