@@ -1,12 +1,12 @@
 import BlogCard from "@/components/general/BlogCard";
+import { BlogCardSkeleton } from "@/components/general/BlogCardSkeleton";
 import { buttonVariants } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 const getData = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -24,8 +24,19 @@ const getData = async () => {
   return data;
 };
 
-const DashboardRoute = async () => {
+const BlogCardData = async () => {
   const data = await getData();
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {data.map((item) => {
+        return <BlogCard key={item.id} data={item}></BlogCard>;
+      })}
+    </div>
+  );
+};
+
+const DashboardRoute = async () => {
+  const { getUser } = getKindeServerSession();
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -35,11 +46,9 @@ const DashboardRoute = async () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.map((obj) => {
-          return <BlogCard key={obj.id} data={obj}></BlogCard>;
-        })}
-      </div>
+        <Suspense fallback={<BlogCardSkeleton></BlogCardSkeleton>}>
+          <BlogCardData></BlogCardData>
+        </Suspense>
     </div>
   );
 };

@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import { deleteBlog } from "@/app/actions";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const getData = async (id: string) => {
   const data = await prisma.blogPost.findUnique({
@@ -21,6 +23,9 @@ type Params = Promise<{ id: string }>;
 const IdRoute = async ({ params }: { params: Params }) => {
   const { id } = await params;
   const data = await getData(id);
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  const isAuthor = user && data.authorId === user.id;
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
       <Link
@@ -51,6 +56,16 @@ const IdRoute = async ({ params }: { params: Params }) => {
             }).format(data.createdAt)}
           </p>
         </div>
+        {isAuthor && (
+          <div className="flex gap-2 mt-4">
+            <Link href={`/dashboard/edit/${data.id}`}>
+              <button className={buttonVariants({ variant: "outline", size: "sm" })}>Edit</button>
+            </Link>
+            <form action={async () => { 'use server'; await deleteBlog(data.id); }}>
+              <button className={buttonVariants({ variant: "destructive", size: "sm" })} type="submit">Delete</button>
+            </form>
+          </div>
+        )}
       </div>
       {/* <div className="relative h-[400px] w-full mb-8 overflow-hidden rounded-lg">
             <Image src={data.imageUrl} alt={data.title} fill className="object-cover" priority></Image>

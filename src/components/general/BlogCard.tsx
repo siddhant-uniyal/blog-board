@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Button } from "../ui/button";
+import { deleteBlog } from "@/app/actions";
 
 type BlogType = {
   data: {
@@ -13,9 +15,11 @@ type BlogType = {
     createdAt: Date;
     updatedAt: Date;
   };
+  currentUserId?: string;
 };
 
-const BlogCard = ({ data }: BlogType) => {
+const BlogCard = ({ data, currentUserId }: BlogType) => {
+  const isAuthor = currentUserId && data.authorId === currentUserId;
   return (
     <div
       className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md
@@ -48,6 +52,16 @@ const BlogCard = ({ data }: BlogType) => {
               day: "numeric"
             }).format(data.createdAt)}</time>
           </div>
+          {isAuthor && (
+            <div className="flex gap-2 mt-4">
+              <Link href={`/dashboard/edit/${data.id}`}>
+                <Button size="sm" variant="outline">Edit</Button>
+              </Link>
+              <form action={async () => { 'use server'; await deleteBlog(data.id); }}>
+                <Button size="sm" variant="destructive" type="submit">Delete</Button>
+              </form>
+            </div>
+          )}
         </div>
       </Link>
     </div>
